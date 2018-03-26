@@ -261,8 +261,8 @@ ytrain <- y[ss]
 ytest <- y[-ss]
 d <- ncol(x)
 ntree <- 500
-subsample <- 0.1
-leaf.size <- 50
+subsample <- 0.8
+leaf.size <- 10
 
 modelGBT <- trainGBT(X=xtrain, Y=ytrain, ntree=ntree, xtest=xtest, ytest=ytest, leaf.size=leaf.size)
 modelSGBT <- trainSGBT(X=xtrain, Y=ytrain, ntree=ntree, xtest=xtest, ytest=ytest, subsample=subsample, leaf.size=leaf.size)
@@ -285,7 +285,7 @@ legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", 
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
        col=c(1:5, 1:5), 
        lty=c(rep(1,5), rep(2,5)),
-       lwd=2, cex=0.6, ncol=2)
+       lwd=1, cex=0.6, ncol=2)
 dev.off()
 
 

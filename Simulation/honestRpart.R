@@ -71,6 +71,16 @@ honest.rpart.predict <- function(tree, newdata) {
   return(as.vector(tree$predict[paste(where)]))
 }
 
+predict.boulevard <- function(blv, X) {
+  ntree <- length(blv$trees)
+  lambda <- blv$lambda
+  ans <- rep(0, nrow(X))
+  for (b in 1:ntree) {
+    ans <- (b-1)/b*ans + lambda/b*honest.rpart.predict(blv$trees[[b]], newdata = X)
+  }
+  return(ans)
+}
+
 boulevard <- function(X, Y, ntree=1000, lambda = 0.5, subsample=0.8, xtest=NULL, ytest=NULL, leaf.size=10, method="random") {
   n <- nrow(X)
   tree <- list()
@@ -98,5 +108,7 @@ boulevard <- function(X, Y, ntree=1000, lambda = 0.5, subsample=0.8, xtest=NULL,
       testmse <- c(testmse, mean((predtest/lambda*(1+lambda)-ytest)^2))
     }
   }
-  return(list(trees=tree, mse=trainmse, testmse=testmse))
+  return(list(trees=tree, mse=trainmse, testmse=testmse, lambda=lambda))
 }
+
+
