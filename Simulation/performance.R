@@ -52,7 +52,7 @@ trainSGBT <- function(X, Y, ntree=1000, xtest=NULL, ytest=NULL, subsample=0.8, l
 }
 
 trainBLV <- function(X, Y, ntree=1000, xtest=NULL, ytest=NULL, leaf.size=10, subsample=0.8, method="random") {
-  model <- boulevard(X, Y, ntree=ntree, xtest=xtest, ytest=ytest, leaf.size=leaf.size*2, subsample=subsample, method=method)
+  model <- boulevard(X, Y, ntree=ntree, xtest=xtest, ytest=ytest, leaf.size=leaf.size*1.2, subsample=subsample, method=method)
   return(list(mse=model$mse, testmse=model$testmse))
 }
 
@@ -92,7 +92,7 @@ legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", 
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
        col=c(1:5, 1:5), 
        lty=c(rep(1,5), rep(2,5)),
-       lwd=2, cex=0.6, ncol=2)
+       lwd=1, cex=0.6, ncol=2)
 dev.off()
 
 #### Plot: Simulation 2 ####
@@ -130,7 +130,7 @@ legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", 
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
        col=c(1:5, 1:5), 
        lty=c(rep(1,5), rep(2,5)),
-       lwd=2, cex=0.6, ncol=2)
+       lwd=1, cex=0.6, ncol=2)
 dev.off()
 
 
@@ -170,7 +170,7 @@ legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", 
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
        col=c(1:5, 1:5), 
        lty=c(rep(1,5), rep(2,5)),
-       lwd=2, cex=0.6, ncol=2)
+       lwd=1, cex=0.6, ncol=2)
 dev.off()
 
 #### Plot: CASP ####
@@ -209,7 +209,7 @@ legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", 
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
        col=c(1:5, 1:5), 
        lty=c(rep(1,5), rep(2,5)),
-       lwd=2, cex=0.6, ncol=2)
+       lwd=1, cex=0.6, ncol=2)
 dev.off()
 
 #### Plot: Maintenance ####
@@ -247,7 +247,7 @@ legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", 
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
        col=c(1:5, 1:5), 
        lty=c(rep(1,5), rep(2,5)),
-       lwd=2, cex=0.6, ncol=2)
+       lwd=1, cex=0.6, ncol=2)
 dev.off()
 
 #### Plot: Boston ####

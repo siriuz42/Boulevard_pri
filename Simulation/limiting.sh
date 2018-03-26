@@ -80,18 +80,18 @@ xtest <- matrix(runif(d*5), ncol=d)
 sfExportAll()
 
 limiting <- list()
-limiting[1] <- sfLapply(1:1000, sim, 
-                        xtest=xtest, d=d, n=n, subsample=subsample, leaf.size=leaf.size, ntree=ntree, 
-                        error=error1)
-limiting[2] <- sfLapply(1:1000, sim, 
-                        xtest=xtest, d=d, n=n, subsample=subsample, leaf.size=leaf.size, ntree=ntree, 
-                        error=error2)
-limiting[3] <- sfLapply(1:1000, sim, 
-                        xtest=xtest, d=d, n=n, subsample=subsample, leaf.size=leaf.size, ntree=ntree, 
-                        error=error3)
-limiting[4] <- sfLapply(1:1000, sim, 
-                        xtest=xtest, d=d, n=n, subsample=subsample, leaf.size=leaf.size, ntree=ntree, 
-                        error=error4)
+limiting[[1]] <- sfLapply(1:1000, sim, 
+                          xtest=xtest, d=d, n=n, subsample=subsample, leaf.size=leaf.size, ntree=ntree, 
+                          error=error1)
+limiting[[2]] <- sfLapply(1:1000, sim, 
+                          xtest=xtest, d=d, n=n, subsample=subsample, leaf.size=leaf.size, ntree=ntree, 
+                          error=error2)
+limiting[[3]] <- sfLapply(1:1000, sim, 
+                          xtest=xtest, d=d, n=n, subsample=subsample, leaf.size=leaf.size, ntree=ntree, 
+                          error=error3)
+limiting[[4]] <- sfLapply(1:1000, sim, 
+                          xtest=xtest, d=d, n=n, subsample=subsample, leaf.size=leaf.size, ntree=ntree, 
+                          error=error4)
 
 
 save(limiting, file="limiting_03_26.RData")
