@@ -1,6 +1,6 @@
 #!/bin/bash
 # Telling how many nodes and processors should be used.
-#PBS -l nodes=8:ppn=8,walltime=24:00:00
+#PBS -l nodes=6:ppn=8,walltime=48:00:00
 # Naming the file
 #PBS -N Boulevard_Limiting_03_26
 # Outputting error
@@ -70,7 +70,7 @@ error4 <- function(n) {
 }
 
 
-d <- 8,
+d <- 8
 n <- 1000
 subsample <- 0.5 
 leaf.size <- 10  
