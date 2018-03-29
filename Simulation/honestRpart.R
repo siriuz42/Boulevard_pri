@@ -81,7 +81,7 @@ predict.boulevard <- function(blv, X) {
   return(ans)
 }
 
-boulevard <- function(X, Y, ntree=1000, lambda = 0.5, subsample=0.8, xtest=NULL, ytest=NULL, leaf.size=10, method="random") {
+boulevard <- function(X, Y, ntree=1000, lambda = 0.8, subsample=0.8, xtest=NULL, ytest=NULL, leaf.size=10, method="random") {
   n <- nrow(X)
   tree <- list()
   nss <- floor(n * subsample)

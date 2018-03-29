@@ -52,7 +52,7 @@ trainSGBT <- function(X, Y, ntree=1000, xtest=NULL, ytest=NULL, subsample=0.8, l
 }
 
 trainBLV <- function(X, Y, ntree=1000, xtest=NULL, ytest=NULL, leaf.size=10, subsample=0.8, method="random") {
-  model <- boulevard(X, Y, ntree=ntree, xtest=xtest, ytest=ytest, leaf.size=leaf.size*1.2, subsample=subsample, method=method)
+  model <- boulevard(X, Y, ntree=ntree, xtest=xtest, ytest=ytest, leaf.size=leaf.size, subsample=subsample, method=method)
   return(list(mse=model$mse, testmse=model$testmse))
 }
 
@@ -64,8 +64,8 @@ pred <- function(X) {
 
 
 d <- 8
-n <- 10000
-subsample=0.1
+n <- 2000
+subsample <- 0.5
 leaf.size <- 20
 ntree <- 500
 X <- matrix(runif(d*n), nrow=n)
@@ -86,7 +86,7 @@ mat <- cbind(modelGBT$mse, modelGBT$testmse,
              modelBLV$mse, modelBLV$testmse,
              modelRBLV$mse, modelRBLV$testmse)
 
-matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=2,
+matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=1,
         ylab="MSE", "xlab"="Ensemble Size")
 legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", "rBLV Train",
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
@@ -101,8 +101,8 @@ pred <- function(X) {
 }
 
 d <- 8
-n <- 10000
-subsample=0.1
+n <- 2000
+subsample=0.5
 leaf.size <- 20
 ntree <- 500
 X <- matrix(runif(d*n), nrow=n)
@@ -124,7 +124,7 @@ mat <- cbind(modelGBT$mse, modelGBT$testmse,
              modelBLV$mse, modelBLV$testmse,
              modelRBLV$mse, modelRBLV$testmse)
 
-matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=2,
+matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=1,
         ylab="MSE", "xlab"="Ensemble Size")
 legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", "rBLV Train",
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
@@ -141,8 +141,8 @@ pred <- function(X) {
 }
 
 d <- 8
-n <- 10000
-subsample=0.1
+n <- 2000
+subsample=0.5
 leaf.size <- 20
 ntree <- 500
 X <- matrix(runif(d*n), nrow=n)
@@ -164,7 +164,7 @@ mat <- cbind(modelGBT$mse, modelGBT$testmse,
              modelBLV$mse, modelBLV$testmse,
              modelRBLV$mse, modelRBLV$testmse)
 
-matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=2,
+matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=1,
         ylab="MSE", "xlab"="Ensemble Size")
 legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", "rBLV Train",
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
@@ -185,8 +185,8 @@ ytrain <- y[ss]
 ytest <- y[-ss]
 d <- ncol(x)
 ntree <- 500
-subsample <- 0.1
-leaf.size <- 50
+subsample <- 0.5
+leaf.size <- 100
   
 modelGBT <- trainGBT(X=xtrain, Y=ytrain, ntree=ntree, xtest=xtest, ytest=ytest, leaf.size=leaf.size)
 modelSGBT <- trainSGBT(X=xtrain, Y=ytrain, ntree=ntree, xtest=xtest, ytest=ytest, subsample=subsample, leaf.size=leaf.size)
@@ -203,7 +203,7 @@ mat <- cbind(modelGBT$mse, modelGBT$testmse,
              modelBLV$mse, modelBLV$testmse,
              modelRBLV$mse, modelRBLV$testmse)
 
-matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=2,
+matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=1,
         ylab="MSE", "xlab"="Ensemble Size")
 legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", "rBLV Train",
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
@@ -216,15 +216,15 @@ dev.off()
 raw.data <- read.csv("Maintenance/data.tsv",header=FALSE)
 ss <- sample(nrow(raw.data), 6000, replace=FALSE)
 y <- as.vector(raw.data[[17]])
-x <- raw.data[, 1:16]
+x <- raw.data[, 1:10]
 xtrain <- x[ss, ]
 xtest <- x[-ss, ]
 ytrain <- y[ss]
 ytest <- y[-ss]
 d <- ncol(x)
 ntree <- 500
-subsample <- 0.1
-leaf.size <- 50
+subsample <- 0.5
+leaf.size <- 100
 
 modelGBT <- trainGBT(X=xtrain, Y=ytrain, ntree=ntree, xtest=xtest, ytest=ytest, leaf.size=leaf.size)
 modelSGBT <- trainSGBT(X=xtrain, Y=ytrain, ntree=ntree, xtest=xtest, ytest=ytest, subsample=subsample, leaf.size=leaf.size)
@@ -241,7 +241,7 @@ mat <- cbind(modelGBT$mse, modelGBT$testmse,
              modelBLV$mse, modelBLV$testmse,
              modelRBLV$mse, modelRBLV$testmse)
 
-matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=2,
+matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=1,
         ylab="MSE", "xlab"="Ensemble Size")
 legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", "rBLV Train",
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),
@@ -261,8 +261,8 @@ ytrain <- y[ss]
 ytest <- y[-ss]
 d <- ncol(x)
 ntree <- 500
-subsample <- 0.8
-leaf.size <- 10
+subsample <- 0.5
+leaf.size <- 20
 
 modelGBT <- trainGBT(X=xtrain, Y=ytrain, ntree=ntree, xtest=xtest, ytest=ytest, leaf.size=leaf.size)
 modelSGBT <- trainSGBT(X=xtrain, Y=ytrain, ntree=ntree, xtest=xtest, ytest=ytest, subsample=subsample, leaf.size=leaf.size)
@@ -279,7 +279,7 @@ mat <- cbind(modelGBT$mse, modelGBT$testmse,
              modelBLV$mse, modelBLV$testmse,
              modelRBLV$mse, modelRBLV$testmse)
 
-matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=2,
+matplot(mat, type="l", col=c(1,1,2,2,3,3,4,4,5,5), lty=c(1,2,1,2,1,2,1,2,1,2), lwd=1,
         ylab="MSE", "xlab"="Ensemble Size")
 legend("topright", legend=c("GBT Train", "SGBT Train", "RF Train", "BLV Train", "rBLV Train",
                             "GBT Test", "SGBT Test", "RF Test", "BLV Test", "rBLV Test"),

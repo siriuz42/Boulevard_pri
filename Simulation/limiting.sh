@@ -71,9 +71,9 @@ error4 <- function(n) {
 
 
 d <- 8
-n <- 1000
+n <- 10000
 subsample <- 0.5 
-leaf.size <- 10  
+leaf.size <- 50  
 ntree <- 2000
 
 xtest <- matrix(runif(d*5), ncol=d)
@@ -94,7 +94,7 @@ limiting[[4]] <- sfLapply(1:1000, sim,
                           error=error4)
 
 
-save(limiting, file="limiting_03_26.RData")
+save(limiting, file="limiting_03_29.RData")
 
 sfStop()
 
