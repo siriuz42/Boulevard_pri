@@ -1,6 +1,5 @@
 library(rpart)
 library(treeClust)
-library(plotrix)
 
 honest.rpart.structure <- function(X, Y, method="standard", structY=NULL, leaf.size=3, diameter.test=NULL) {
   n <- nrow(X)
@@ -29,14 +28,16 @@ honest.rpart <- function(X, Y, method="standard", structY=NULL, subset=NULL, lea
   trainData <- data.frame(Y, X)
   
   tree <- list()
-  tree$train.where <- rep(0, length(Y))
   if (is.null(subset)) {
     newX <- X
-    newY <- Y
+    tree$y <- Y
+    tree$weight <- rep(0, length(Y))
   } else {
     subset <- sort(subset)
     newX <- X[subset, ]
-    newY <- Y[subset]
+    tree$subset <- subset
+    tree$y <- Y[subset]
+    tree$weight <- rep(0, length(subset))
   }
   if (!is.null(diameter.test)) {
     tree$rpart.tree <- honest.rpart.structure(X, Y, method=method, structY=structY, leaf.size=leaf.size, diameter.test=diameter.test)
@@ -44,14 +45,14 @@ honest.rpart <- function(X, Y, method="standard", structY=NULL, subset=NULL, lea
     tree$rpart.tree <- honest.rpart.structure(X, Y, method=method, structY=structY, leaf.size=leaf.size)
   }
   
-  tmpWhere <- unique(tree$rpart.tree$where)
+  tmpWhere <- unique(rpart.predict.leaves(tree$rpart.tree, newdata=data.frame(X=X), type="where"))
   where <- rpart.predict.leaves(tree$rpart.tree, newdata=data.frame(X=newX), type="where")
   tmpPredict <- c()
   for (i in tmpWhere) {
     tmpCount <- sum(where==i)
     if (tmpCount > 0) {
-      tmpPredict <- c(tmpPredict, mean(newY[where==i]))
-      tree$train.where[subset[where==i]] = i
+      tmpPredict <- c(tmpPredict, mean(tree$y[where==i]))
+      tree$weights[where==i] <- 1/tmpCount
     } else {
       tmpPredict <- c(tmpPredict, 0)
     }
@@ -70,22 +71,6 @@ honest.rpart.predict <- function(tree, newdata) {
   return(as.vector(tree$predict[paste(where)]))
 }
 
-honest.rpart.predict.weight <- function(tree, newdata) {
-  if (is.vector(newdata)) {
-    newdata = matrix(newdata, nrow=1)
-  }
-  colnames(newdata) = paste("x", 1:ncol(newdata), sep="")
-  where <- rpart.predict.leaves(tree$rpart.tree, newdata=data.frame(X=newdata), type="where")
-  ans <- t(sapply(where, function(x) return(tree$train.where==x)))*1
-  for (i in 1:nrow(ans)){
-    w <- sum(ans[i, ])
-    if(w>0) {
-      ans[i, ] = ans[i, ] / w
-    }
-  }
-  return(ans)
-}
-
 predict.boulevard <- function(blv, X) {
   ntree <- length(blv$trees)
   lambda <- blv$lambda
@@ -93,25 +78,11 @@ predict.boulevard <- function(blv, X) {
   for (b in 1:ntree) {
     ans <- (b-1)/b*ans + lambda/b*honest.rpart.predict(blv$trees[[b]], newdata = X)
   }
-  return(ans*(1+lambda)/lambda)
+  return(ans)
 }
 
-predict.boulevard.variance <- function(blv, newdata, narrow = FALSE) {
-  ntree <- length(blv$trees)
-  lambda <- blv$lambda
-  ans <- honest.rpart.predict.weight(blv$trees[[1]], newdata=newdata)
-  if (ntree > 1) {
-    for (b in 2:ntree) {
-      ans <- ans + honest.rpart.predict.weight(blv$trees[[b]], newdata=newdata)
-    }
-    ans <- ans / ntree
-  }
-  ans <- apply(ans, 1, function(x) sum(x*x))
-  ans <- ans * (1+lambda)^2 * blv$sigma2
-  if (narrow) {
-    ans <- ans / (1+lambda)^2
-  } 
-  return(ans)
+predict.boulevard.variance <- function(blv, X) {
+  
 }
 
 boulevard <- function(X, Y, ntree=1000, lambda = 0.8, subsample=0.8, xtest=NULL, ytest=NULL, leaf.size=10, method="random") {

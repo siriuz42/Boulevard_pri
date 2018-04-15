@@ -1,6 +1,5 @@
 library(rpart)
 library(treeClust)
-library(plotrix)
 
 honest.rpart.structure <- function(X, Y, method="standard", structY=NULL, leaf.size=3, diameter.test=NULL) {
   n <- nrow(X)
@@ -77,10 +76,9 @@ honest.rpart.predict.weight <- function(tree, newdata) {
   colnames(newdata) = paste("x", 1:ncol(newdata), sep="")
   where <- rpart.predict.leaves(tree$rpart.tree, newdata=data.frame(X=newdata), type="where")
   ans <- t(sapply(where, function(x) return(tree$train.where==x)))*1
-  for (i in 1:nrow(ans)){
-    w <- sum(ans[i, ])
-    if(w>0) {
-      ans[i, ] = ans[i, ] / w
+  for (i in nrow(ans)){
+    if(sum(ans[i, ])>0) {
+      ans[i, ] = ans[i, ] / sum(ans[i, ])
     }
   }
   return(ans)
@@ -107,7 +105,7 @@ predict.boulevard.variance <- function(blv, newdata, narrow = FALSE) {
     ans <- ans / ntree
   }
   ans <- apply(ans, 1, function(x) sum(x*x))
-  ans <- ans * (1+lambda)^2 * blv$sigma2
+  ans <- ans * lambda^2 * blv$sigma2
   if (narrow) {
     ans <- ans / (1+lambda)^2
   } 
