@@ -98,6 +98,7 @@ truth <- pred(xtest)
 plotmax <- max(truth, blv.pred+ci.width, blv.pred-ci.width, result)
 plotmin <- min(truth, blv.pred+ci.width, blv.pred-ci.width, result)
 
+setEPS()
 postscript(file=paste("fig_", suffix, ".eps", sep=""),
 	   width=5, height=3)
 boxplot(result, ylim=c(plotmin, plotmax), xlab="Test Pts")
