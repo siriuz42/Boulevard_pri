@@ -79,7 +79,7 @@ sfExportAll()
 result <- sfSapply(1:100, node.work, 
                    n=n, d=d, subsample=subsample, leaf.size=leaf.size, ntree=ntree)
 result <- t(result)
-save(result, file="result_" + suffix + ".RData")
+save(result, file=paste("result_", suffix, ".RData", sep=""))
 
 xtrain <- matrix(runif(d*n), nrow=n)
 ytrain <- pred(xtrain) + error(n)
@@ -98,7 +98,7 @@ truth <- pred(xtest)
 plotmax <- max(truth, blv.pred+ci.width, blv.pred-ci.width, result)
 plotmin <- min(truth, blv.pred+ci.width, blv.pred-ci.width, result)
 
-postscript(file="fig_" + suffix + ".eps")
+postscript(file=paste("fig_", suffix, ".eps", sep=""))
 boxplot(result, ylim=c(plotmin, plotmax), xlab="Test Pts")
 plotCI(blv.pred, uiw = ci.width, 
        add=TRUE, col="red", cex=1, slty=1)
