@@ -1,0 +1,46 @@
+Loading required package: snow
+Read 48 items
+snowfall 1.84-6.1 initialized (using snow 0.4-2): parallel execution on 48 CPUs.
+
+Source honestRpart.R loaded in cluster.
+
+Loading required package: cluster
+Warning message:
+In limiting[1] <- sfLapply(1:1000, sim, xtest = xtest, d = d, n = n,  :
+  number of items to replace is not a multiple of replacement length
+Warning message:
+In limiting[2] <- sfLapply(1:1000, sim, xtest = xtest, d = d, n = n,  :
+  number of items to replace is not a multiple of replacement length
+Warning message:
+In limiting[3] <- sfLapply(1:1000, sim, xtest = xtest, d = d, n = n,  :
+  number of items to replace is not a multiple of replacement length
+Warning message:
+In limiting[4] <- sfLapply(1:1000, sim, xtest = xtest, d = d, n = n,  :
+  number of items to replace is not a multiple of replacement length
+
+Stopping cluster
+
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.

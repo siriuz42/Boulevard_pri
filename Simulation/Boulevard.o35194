@@ -1,0 +1,17 @@
+Loading required package: snow
+Read 64 items
+snowfall 1.84-6.1 initialized (using snow 0.4-2): parallel execution on 64 CPUs.
+
+Source honestRpart.R loaded in cluster.
+
+Loading required package: cluster
+Error in "result_" + suffix : non-numeric argument to binary operator
+Calls: save
+Execution halted
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
+Killed by signal 15.
