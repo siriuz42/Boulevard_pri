@@ -47,20 +47,21 @@ error <- function(n, d = 1) {
     return(runif(n, -d, d))
 }
 
-node.work <- function(dummy, n, d, subsample, leaf.size, ntree, lambda = 0.5) {
+node.work <- function(dummy, n, d, subsample, leaf.size, ntree, errsig=1, lambda = 0.5) {
     xtrain <- matrix(runif(d*n), nrow=n)
-    ytrain <- pred(xtrain) + error(n)
+    ytrain <- pred(xtrain) + error(n, d=errsig)
     blv <- boulevard(xtrain, ytrain, ntree=ntree, subsample=subsample, lambda = lambda,
                      leaf.size=leaf.size, method="random") 
     return(predict.boulevard(blv, xtest)) 
 }
 
 d <- 5
-n <- 1000
-subsample <- 0.5 
-leaf.size <- 10  
-ntree <- 100
+n <- 5000
+subsample <- 0.8 
+leaf.size <- 20  
+ntree <- 1000
 lambda <- 0.5
+errsig <- 2
 
 ntest <- 10
 xtest <- t(matrix(c(0.5, 0.5, 0.5, 0.5, 0.5,
@@ -77,12 +78,12 @@ xtest <- t(matrix(c(0.5, 0.5, 0.5, 0.5, 0.5,
 sfExportAll()
 
 result <- sfSapply(1:100, node.work, 
-                   n=n, d=d, subsample=subsample, leaf.size=leaf.size, ntree=ntree)
+                   n=n, d=d, subsample=subsample, errsig=errsig, leaf.size=leaf.size, ntree=ntree)
 result <- t(result)
 save(result, file=paste("result_", suffix, ".RData", sep=""))
 
 xtrain <- matrix(runif(d*n), nrow=n)
-ytrain <- pred(xtrain) + error(n)
+ytrain <- pred(xtrain) + error(n, d=errsig)
 blv <- boulevard(xtrain, ytrain, ntree=ntree, subsample=subsample, lambda = lambda,
                  leaf.size=leaf.size, method="random") 
                  
@@ -99,7 +100,8 @@ plotmax <- max(truth, blv.pred+ci.width, blv.pred-ci.width, result)
 plotmin <- min(truth, blv.pred+ci.width, blv.pred-ci.width, result)
 
 setEPS()
-postscript(file=paste("fig_", suffix, ".eps", sep=""))
+postscript(file=paste("fig_", suffix, ".eps", sep=""),
+           width=8, height=6)
 boxplot(result, ylim=c(plotmin, plotmax), xlab="Test Pts")
 plotCI(blv.pred, uiw = ci.width, 
        add=TRUE, col="red", cex=1, slty=1)
