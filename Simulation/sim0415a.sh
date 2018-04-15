@@ -99,8 +99,7 @@ plotmax <- max(truth, blv.pred+ci.width, blv.pred-ci.width, result)
 plotmin <- min(truth, blv.pred+ci.width, blv.pred-ci.width, result)
 
 setEPS()
-postscript(file=paste("fig_", suffix, ".eps", sep=""),
-	   width=5, height=3)
+postscript(file=paste("fig_", suffix, ".eps", sep=""))
 boxplot(result, ylim=c(plotmin, plotmax), xlab="Test Pts")
 plotCI(blv.pred, uiw = ci.width, 
        add=TRUE, col="red", cex=1, slty=1)
