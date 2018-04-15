@@ -56,10 +56,10 @@ node.work <- function(dummy, n, d, subsample, leaf.size, ntree, lambda = 0.5) {
 }
 
 d <- 5
-n <- 2000
+n <- 1000
 subsample <- 0.5 
 leaf.size <- 10  
-ntree <- 1000
+ntree <- 100
 lambda <- 0.5
 
 ntest <- 10
@@ -98,7 +98,8 @@ truth <- pred(xtest)
 plotmax <- max(truth, blv.pred+ci.width, blv.pred-ci.width, result)
 plotmin <- min(truth, blv.pred+ci.width, blv.pred-ci.width, result)
 
-postscript(file=paste("fig_", suffix, ".eps", sep=""))
+postscript(file=paste("fig_", suffix, ".eps", sep=""),
+	   width=5, height=3)
 boxplot(result, ylim=c(plotmin, plotmax), xlab="Test Pts")
 plotCI(blv.pred, uiw = ci.width, 
        add=TRUE, col="red", cex=1, slty=1)
