@@ -59,9 +59,9 @@ d <- 5
 n <- 5000
 subsample <- 0.8 
 leaf.size <- 20  
-ntree <- 1000
+ntree <- 3000
 lambda <- 0.5
-errsig <- 2
+errsig <- 4
 
 ntest <- 10
 xtest <- t(matrix(c(0.5, 0.5, 0.5, 0.5, 0.5,
